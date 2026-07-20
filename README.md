@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
+title: Techo AI - SUTech University Assistant
+emoji: 🤖
+colorFrom: purple
+colorTo: cyan
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+short_description: Techo is your smart AI companion at SUTech University
+---
 
-## Getting Started
+# Techo AI 🤖
 
-First, run the development server:
+**Techo** is the official AI assistant for **SUTech (Elsewedy University of Technology)** — your smart, friendly Egyptian student companion.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- 💬 Answers academic questions in Arabic & English
+- 🎓 Helps with GPA calculations, course info, admissions
+- 🧠 Powered by GPT-4o-mini via OpenRouter
+- 🌙 Beautiful dark/light mode UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set the `OPENROUTER_API_KEY` secret in your Space settings under **Settings → Variables and secrets**.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech Stack
+- **Frontend**: Vanilla HTML/CSS/JS
+- **Backend**: Python Flask
+- **AI**: OpenRouter → GPT-4o-mini
