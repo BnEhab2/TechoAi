@@ -13,3 +13,8 @@ Success! Reply: 'أنا تمام يا فنان، وأنت عامل إيه؟ من
 Sending to OpenRouter. Key preview: sk-or-v1-a35...
 OpenRouter response status: 200
 Success! Reply: 'Sure, يا غالي! When we talk about "Programs," it can mean a few different things depending on the co...'
+
+--- Chat Request: Session=sess_1784516626843, Message='ايه الدنيا عامل ايه' ---
+Sending to OpenRouter. Key preview: sk-or-v1-a35...
+OpenRouter response status: 200
+Success! Reply: 'الحمد لله، يا صديقي! الدنيا ماشية وكل حاجة تمام. وأنت؟ منور النهاردة! في حاجة معينة حابب تسأل عنها أ...'

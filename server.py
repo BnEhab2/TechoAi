@@ -147,10 +147,11 @@ def open_browser():
         pass
 
 if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
     api_key = os.getenv("OPENROUTER_API_KEY", "").strip('"').strip("'")
     print("=" * 60)
-    print("  [START] Techo AI Full App running on http://localhost:5000")
+    print(f"  [START] Techo AI Full App running on http://localhost:{port}")
     print(f"  [API]   OpenRouter Key: {'✅ Set (' + api_key[:8] + '...)' if api_key else '❌ NOT SET'}")
     print("=" * 60)
     Timer(1.2, open_browser).start()
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)

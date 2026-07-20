@@ -9,8 +9,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all project files
 COPY . .
 
-# Expose HuggingFace Spaces default port
-EXPOSE 7860
+# Expose port (Render sets PORT dynamically)
+EXPOSE 5000
 
-# Run the app
-CMD ["python", "app.py"]
+# Run the server
+CMD ["python", "server.py"]
