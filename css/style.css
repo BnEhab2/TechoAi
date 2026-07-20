@@ -247,6 +247,9 @@ body {
   align-items: center;
   gap: 1.75rem;
   list-style: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header-nav-link {
