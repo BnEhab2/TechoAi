@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   TECHO — Core Application Engine (Vanilla ES6 JavaScript)
-   SUTech Official AI Digital Assistant
-   ═══════════════════════════════════════════════════════════════════════════ */
+
 
 document.addEventListener('DOMContentLoaded', () => {
   initParticleBackground();
@@ -12,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
 });
 
-/* ── 1. Sidebar Drawer Toggle ── */
+
 function initSidebar() {
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('app-sidebar');
@@ -33,7 +30,7 @@ function initSidebar() {
   if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
   if (overlay) overlay.addEventListener('click', closeSidebar);
 
-  // Close sidebar on link click
+
   document.querySelectorAll('.sidebar-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       closeSidebar();
@@ -41,7 +38,7 @@ function initSidebar() {
   });
 }
 
-/* ── 2. Tab Navigation Manager (Home, Chat, Identity) ── */
+
 function initTabNavigation() {
   const hash = window.location.hash.replace('#', '') || 'home';
   switchTab(hash);
@@ -76,7 +73,7 @@ function switchTab(tabId) {
   }
 }
 
-/* ── 3. Theme & Language Manager ── */
+
 function initThemeAndLang() {
   const themeBtns = document.querySelectorAll('.theme-toggle-btn');
   const langBtns = document.querySelectorAll('.lang-toggle-btn');
@@ -127,7 +124,7 @@ function applyLang(lang) {
   });
 }
 
-/* ── 4. Chat Studio Interactive Logic (ChatGPT Style) ── */
+
 function initChatStudio() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('send-btn');
@@ -139,10 +136,10 @@ function initChatStudio() {
   async function sendMessage(userText) {
     if (!userText) return;
 
-    // Hide initial hero greeting on first message
+
     if (hero) hero.classList.add('hidden');
 
-    // Append User Message Row
+
     const userRow = document.createElement('div');
     userRow.className = 'chat-msg-row user-row';
     userRow.innerHTML = `<div class="chat-msg-bubble user fw-medium" dir="auto">${escapeHtml(userText)}</div>`;
@@ -151,7 +148,7 @@ function initChatStudio() {
     input.value = '';
     feed.scrollTo({ top: feed.scrollHeight, behavior: 'smooth' });
 
-    // Append Assistant Message Row with Flipped Techo Avatar
+
     const assistantRow = document.createElement('div');
     assistantRow.className = 'chat-msg-row assistant-row';
 
@@ -170,7 +167,7 @@ function initChatStudio() {
 
     const contentBody = assistantRow.querySelector('.chat-content-body');
 
-    // Call Python Backend API (server.py on port 5000)
+
     try {
       const API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
       const sessionId = window.__techoSessionId || (window.__techoSessionId = 'sess_' + Date.now());
@@ -192,11 +189,11 @@ function initChatStudio() {
       } else {
         const errText = await response.text().catch(() => 'Unknown error');
         console.warn('[Techo] API error response:', errText);
-        streamResponse(contentBody, getTechoReply(userText));
+        streamResponse(contentBody, 'عذراً يا صديقي، حصل مشكلة في الاتصال بالـ AI. تأكد من إعداد الـ API Key وجرب تاني!');
       }
     } catch (err) {
       console.warn("[Techo] Backend connection failed — make sure server.py is running on port 5000:", err.message);
-      streamResponse(contentBody, getTechoReply(userText));
+      streamResponse(contentBody, 'عذراً يا صديقي، حصل مشكلة في الاتصال بالـ AI. تأكد من تشغيل السيرفر وجرب تاني!');
     }
   }
 
@@ -210,16 +207,16 @@ function initChatStudio() {
   function parseMarkdown(text) {
     if (!text) return '';
     
-    // Trim leading/trailing whitespace and newlines from the message
+
     text = text.trim();
 
-    // Escape HTML to prevent XSS
+
     let html = text
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
 
-    // 1. Code Blocks: ```lang\n...\n```
+
     const codeBlocks = [];
     html = html.replace(/```(?:[a-zA-Z0-9]+)?\n([\s\S]*?)(?:```|$)/g, (match, code) => {
       const placeholder = `__CODE_BLOCK_PLACEHOLDER_${codeBlocks.length}__`;
@@ -227,16 +224,16 @@ function initChatStudio() {
       return placeholder;
     });
 
-    // 2. Inline Code: `code`
+
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
-    // 3. Bold: **bold**
+
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
-    // 4. Italic: *italic*
+
     html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
 
-    // 5. Lists (bullet and ordered)
+
     const lines = html.split('\n');
     let inList = false;
     let inOrderedList = false;
@@ -244,7 +241,7 @@ function initChatStudio() {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i].trim();
       
-      // If it's a code block placeholder, leave it as is
+
       if (line.startsWith('__CODE_BLOCK_PLACEHOLDER_')) {
         continue;
       }
@@ -290,10 +287,10 @@ function initChatStudio() {
     
     html = lines.join('') + suffix;
 
-    // Clean up trailing <br>s
+
     html = html.replace(/(?:<br>)+$/, '');
 
-    // Restore code blocks
+
     codeBlocks.forEach((block, idx) => {
       html = html.replace(`__CODE_BLOCK_PLACEHOLDER_${idx}__`, block);
     });
@@ -312,7 +309,7 @@ function initChatStudio() {
         feed.scrollTo({ top: feed.scrollHeight, behavior: 'smooth' });
       } else {
         clearInterval(interval);
-        element.innerHTML = parseMarkdown(text); // Final HTML render
+        element.innerHTML = parseMarkdown(text);
         feed.scrollTo({ top: feed.scrollHeight, behavior: 'smooth' });
       }
     }, 15);
@@ -330,7 +327,7 @@ function initChatStudio() {
     }
   });
 
-  // Topic Buttons (Admissions, Programs, Scholarships, Campus Life)
+
   document.querySelectorAll('.topic-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const topic = btn.getAttribute('data-topic') || btn.textContent.trim();
@@ -339,23 +336,8 @@ function initChatStudio() {
   });
 }
 
-function getTechoReply(query) {
-  const q = query.toLowerCase();
 
-  if (q.includes('admission') || q.includes('شروط') || q.includes('قبول')) {
-    return "🎓 **SUTech Admissions**: Applications for the upcoming academic year are now open! You can submit your high school certificate and apply directly via the university portal.";
-  } else if (q.includes('program') || q.includes('برامج') || q.includes('تخصص')) {
-    return "📖 **SUTech Programs**: We offer top-accredited technology programs including Computer Science & AI, Mechatronics, Design & Digital Media, and Energy Systems.";
-  } else if (q.includes('scholarship') || q.includes('منح')) {
-    return "🏅 **Scholarships**: SUTech provides up to 100% merit-based scholarships for high achievers, athletic champions, and STEM leaders.";
-  } else if (q.includes('campus') || q.includes('حياة')) {
-    return "👥 **Campus Life**: Enjoy vibrant student clubs, innovation labs, sports complexes, and hackathons hosted right on campus!";
-  }
 
-  return `I'm **Techo**, your AI study companion at SUTech! 🎓 How else can I assist you with your courses, admissions, or campus services?`;
-}
-
-/* ── 5. Floating Cloud & Starfield Particle Engine ── */
 function initParticleBackground() {
   const canvas = document.getElementById('bg-stars-canvas');
   if (!canvas) return;
@@ -417,7 +399,7 @@ function initParticleBackground() {
   animate();
 }
 
-/* ── 6. ScrollReveal IntersectionObserver Engine ── */
+
 function initScrollReveal() {
   const elements = document.querySelectorAll('.reveal-element');
   if (!elements.length) return;

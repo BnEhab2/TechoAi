@@ -97,37 +97,15 @@ def chat():
             else:
                 print(f"[API] OpenRouter error: {r.text[:300]}", flush=True)
 
-        # ── Offline Fallback ──
-        print("[WARN] No API key or API failed, using offline fallback", flush=True)
-        fallback_reply = get_techo_offline_reply(user_message)
-        conversation_history[session_id].append({"role": "assistant", "content": fallback_reply})
-        return jsonify({'reply': fallback_reply})
+        # ── API Fail Fallback ──
+        print("[WARN] No API key or API failed", flush=True)
+        return jsonify({'reply': 'عذراً يا صديقي، حصل مشكلة في الاتصال بالـ AI. تأكد من إعداد الـ API Key وجرب تاني!'}), 503
 
     except Exception as e:
         print(f"[ERROR] Error in /api/chat: {e}", flush=True)
         import traceback
         traceback.print_exc()
         return jsonify({'reply': 'حصل مشكلة بسيطة في الاتصال، جرب تبعت الرسالة تاني يا فنان!'}), 500
-
-
-@app.route('/api/health', methods=['GET'])
-def health():
-    api_key = os.getenv("OPENROUTER_API_KEY", "").strip('"').strip("'")
-    return jsonify({
-        'status': 'ok',
-        'api_key_set': bool(api_key),
-    })
-
-def get_techo_offline_reply(user_text):
-    text = user_text.lower()
-    if 'سلام' in text or 'أهلا' in text or 'hi' in text or 'hello' in text:
-        return "منور يا صديقي! أنا Techo مساعدك الذكي في جامعة SUTech. تؤمرني بإيه النهاردة؟"
-    elif 'gpa' in text or 'درجات' in text or 'تقدير' in text:
-        return "حساب الـ GPA مع SUTech بيعتمد على الساعات المعتمدة (Credit Hours) لكل مادة. تقدر تبعتلي درجاتك وأنا هحسبهالك فوراً!"
-    elif 'برمجة' in text or 'كود' in text or 'python' in text or 'code' in text:
-        return "أنا جاهز أصلحلك أي أخطاء في الـ Code وأشرحلك الـ Logic خطوة بخطوة يا فنان!"
-    else:
-        return "أهلاً بك يا صديقي! أنا Techo مساعدك الذكي في SUTech، وجاهز أساعدك في أي استفسار أكاديمي أو تقني!"
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 7860))  # HF Spaces default port

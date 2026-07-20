@@ -116,13 +116,11 @@ def chat():
                 with open(log_file, "a", encoding="utf-8") as f:
                     f.write(f"Failed! Status: {r.status_code}, Body: {r.text}\n")
 
-        # ── Offline Fallback ──
-        print("[WARN] No API key or API failed, using offline fallback", flush=True)
+        # ── API Fail Fallback ──
+        print("[WARN] No API key or API failed", flush=True)
         with open(log_file, "a", encoding="utf-8") as f:
-            f.write("Using offline fallback\n")
-        fallback_reply = get_techo_offline_reply(user_message)
-        conversation_history[session_id].append({"role": "assistant", "content": fallback_reply})
-        return jsonify({'reply': fallback_reply})
+            f.write("API Key missing or API request failed\n")
+        return jsonify({'reply': 'عذراً يا صديقي، حصل مشكلة في الاتصال بالـ AI. تأكد من إعداد الـ API Key وجرب تاني!'}), 503
 
     except Exception as e:
         print(f"[ERROR] Error in /api/chat: {e}", flush=True)
@@ -141,17 +139,6 @@ def health():
         'api_key_set': bool(api_key),
         'api_key_preview': f"{api_key[:8]}...{api_key[-4:]}" if len(api_key) > 12 else 'too_short'
     })
-
-def get_techo_offline_reply(user_text):
-    text = user_text.lower()
-    if 'سلام' in text or 'أهلا' in text or 'hi' in text or 'hello' in text:
-        return "منور يا صديقي! أنا Techo مساعدك الذكي في جامعة SUTech. تؤمرني بإيه النهاردة؟"
-    elif 'gpa' in text or 'درجات' in text or 'تقدير' in text:
-        return "حساب الـ GPA مع SUTech بيعتمد على الساعات المعتمدة (Credit Hours) لكل مادة. تقدر تبعتلي درجاتك وأنا هحسبهالك فوراً!"
-    elif 'برمجة' in text or 'كود' in text or 'python' in text or 'code' in text:
-        return "أنا جاهز أصلحلك أي أخطاء في الـ Code وأشرحلك الـ Logic خطوة بخطوة يا فنان!"
-    else:
-        return f"أهلاً بك يا صديقي! وصلتني رسالتك. أنا Techo مساعدك الذكي في SUTech، وجاهز أساعدك في أي استفسار أكاديمي أو تقني!"
 
 def open_browser():
     try:
