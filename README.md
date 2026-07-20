@@ -1,5 +1,5 @@
 ---
-title: Techo AI - SUTech University Assistant
+title: TechoAi
 emoji: 🤖
 colorFrom: purple
 colorTo: cyan
