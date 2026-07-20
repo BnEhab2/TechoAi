@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techo — Your AI Study Companion | SUTech University</title>
+    <!-- Official SUTech Favicon -->
+    <link rel="icon" type="image/webp" href="public/images/SUT-Fav-Icon.webp">
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Sheet (Helvetica Neue) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         BACKGROUND STARFIELD & FLOATING CLOUD PARTICLES CANVAS
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <canvas id="bg-stars-canvas"></canvas>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         COLLAPSIBLE SIDEBAR DRAWER (ONLY 3 LINKS: Home, Chat, Identity)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    
+    <aside id="app-sidebar" class="app-sidebar">
+        <div>
+            <!-- Sidebar Header with Official SUTech Logo -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem;">
+                <div class="sutech-brand-mark">
+                    <img src="public/images/SUT-Fav-Icon.webp" alt="SUTech University Logo" style="width:36px; height:36px; object-fit:contain; border-radius:8px;" />
+                    <div class="sutech-brand-text">
+                        <span class="title fw-bold">SUTech</span>
+                        <span class="subtitle fw-medium">ELSEWEDY UNIVERSITY</span>
+                    </div>
+                </div>
+                <button id="sidebar-close-btn" class="btn-icon" style="border:none; background:none;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Navigation Links (Exact 3 Links: Home, Chat, Identity) -->
+            <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; display:block; margin-bottom:0.75rem;">Navigation</span>
+            <button class="sidebar-nav-link active" data-tab-link="home" onclick="switchTab('home')">
+                <i class="fa-solid fa-house"></i> <span>Home</span>
+            </button>
+            <button class="sidebar-nav-link" data-tab-link="chat" onclick="switchTab('chat')">
+                <i class="fa-solid fa-comments"></i> <span>Chat</span>
+            </button>
+            <button class="sidebar-nav-link" data-tab-link="identity" onclick="switchTab('identity')">
+                <i class="fa-solid fa-palette"></i> <span>Identity</span>
+            </button>
+        </div>
+
+        <!-- Sidebar User Footer -->
+        <div style="padding:0.85rem; background:rgba(255,255,255,0.05); border-radius:14px; display:flex; align-items:center; gap:0.75rem;">
+            <div style="width:36px; height:36px; border-radius:50%; background:var(--sutech-purple); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:0.85rem;">AH</div>
+            <div>
+                <span style="font-size:0.85rem; font-weight:800; display:block;">Ahmed Hassan</span>
+                <span style="font-size:0.7rem; color:var(--sutech-cyan);" class="fw-medium">SUTech Student</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         APPLICATION HEADER NAVBAR
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <header class="app-header glass">
+        <!-- Left Group: Sidebar Toggle & Official SUTech Brand Logo -->
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button id="sidebar-toggle" class="btn-icon" title="Toggle Menu Drawer"><i class="fa-solid fa-bars"></i></button>
+            <a href="#home" class="sutech-logo-box" onclick="switchTab('home')">
+                <img src="public/images/SUT-Fav-Icon.webp" alt="SUTech University Logo" style="width:38px; height:38px; object-fit:contain; border-radius:8px;" />
+                <div class="sutech-brand-text">
+                    <span class="title fw-bold">SUTech</span>
+                    <span class="subtitle fw-medium">ELSEWEDY UNIVERSITY OF TECHNOLOGY</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Top Header Navigation Links (Image 3 Desktop) -->
+        <ul class="header-nav-links">
+            <li><a class="header-nav-link fw-medium" onclick="switchTab('home')">About</a></li>
+            <li><a class="header-nav-link fw-medium" onclick="switchTab('home')">Academics</a></li>
+            <li><a class="header-nav-link fw-medium" onclick="switchTab('chat')">Admissions</a></li>
+            <li><a class="header-nav-link fw-medium" onclick="switchTab('home')">Campus Life</a></li>
+            <li><a class="header-nav-link fw-medium" onclick="switchTab('identity')">Identity</a></li>
+        </ul>
+
+        <!-- Right Controls -->
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+            <a href="https://sut.edu.eg/" target="_blank" rel="noopener noreferrer" class="btn-apply-now fw-bold">Apply Now</a>
+            <button class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme"><i class="fa-solid fa-sun" style="color:gold;"></i></button>
+        </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         MAIN APPLICATION TAB CONTAINERS (EXACT 3 TABS: Home, Chat, Identity)
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <main class="app-container">
+
+        <!-- ──────────────────────────────────────────────────────────────────────
+             TAB 1: HOME / LANDING PAGE (IMAGE 3)
+             ────────────────────────────────────────────────────────────────────── -->
+        <section id="tab-home" class="tab-panel active">
+            
+            <!-- ══════════════════════════════════════════════════════════════════
+                 SECTION 1: CLEAN OPENING SCREEN (ONLY LOGO & TECHO ROBOT GREETING)
+                 ══════════════════════════════════════════════════════════════════ -->
+            <div class="landing-section-1 hero-full-screen">
+                <div class="opening-mascot-box reveal-element" style="margin:1rem 0;">
+                    <img src="public/images/Gif_1.gif" class="opening-mascot-img opening-gif-hero" alt="Techo Animated Robot Intro" />
+                </div>
+                <h1 class="opening-title reveal-element"><span class="fw-light">Hello,</span> <span class="fw-heavy">I'm Techo</span></h1>
+                <div class="scroll-indicator reveal-element" onclick="document.querySelector('.landing-section-2').scrollIntoView({behavior:'smooth'})">
+                    <span>Scroll to Explore</span>
+                    <i class="fa-solid fa-chevron-down bounce-arrow"></i>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════════════════
+                 SECTION 2: TECHO BRAND IDENTITY & DESIGN SYSTEM (SCROLL REVEALED)
+                 ══════════════════════════════════════════════════════════════════ -->
+            <div class="landing-section-2 feature-story-section">
+                <div class="section-tag reveal-element">DIGITAL IDENTITY & DESIGN SYSTEM</div>
+                <h2 class="story-title reveal-element"><span class="fw-light">Techo —</span> <span class="fw-bold">Your Digital Guide To SUTech</span></h2>
+                
+                <p class="story-intro reveal-element fw-regular">
+                    Techo is the official AI Digital Assistant and digital identity of SUTech University. Techo becomes the visual face of SUTech's intelligent digital services, representing innovation, accessibility, and technology-driven vision.
+                </p>
+
+                <!-- 4 Core Pillars from Reference Poster -->
+                <div class="story-pillars-grid reveal-element">
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-face-smile"></i></div>
+                        <h4 class="fw-bold">FRIENDLY</h4>
+                        <p class="fw-regular">Approachable & welcoming student companion.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h4 class="fw-bold">INTELLIGENT</h4>
+                        <p class="fw-regular">Smart campus analysis & high accuracy AI response.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-universal-access"></i></div>
+                        <h4 class="fw-bold">ACCESSIBLE</h4>
+                        <p class="fw-regular">Available 24/7 for all SUTech students anytime.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                        <h4 class="fw-bold">INNOVATIVE</h4>
+                        <p class="fw-regular">Designed for modern technology-driven education.</p>
+                    </div>
+                </div>
+
+                <!-- Character Models & Color Tokens Showcase Grid -->
+                <div class="identity-showcase-grid reveal-element">
+                    <!-- 3 Official Character Models (Front, 3/4, Side) -->
+                    <div class="identity-glass-panel">
+                        <h3 class="fw-bold panel-title"><i class="fa-solid fa-layer-group"></i> Character Models</h3>
+                        <div class="mascot-trio-flex">
+                            <div class="mascot-trio-item">
+                                <img src="public/images/TECHO CHATBOT rgb -11.svg" alt="Front View" />
+                                <span>FRONT VIEW</span>
+                            </div>
+                            <div class="mascot-trio-item">
+                                <img src="public/images/TECHO CHATBOT rgb -12.svg" alt="3/4 View" />
+                                <span>3/4 VIEW</span>
+                            </div>
+                            <div class="mascot-trio-item">
+                                <img src="public/images/TECHO CHATBOT rgb -13.png" alt="Side View" />
+                                <span>SIDE VIEW</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Palette System Tokens -->
+                    <div class="identity-glass-panel">
+                        <h3 class="fw-bold panel-title"><i class="fa-solid fa-swatchbook"></i> Color Tokens</h3>
+                        <div class="color-tokens-flex">
+                            <div class="color-token-pill" style="--c:#4C2E91;">
+                                <span class="swatch"></span>
+                                <span class="name fw-bold">SUTech Purple</span>
+                                <span class="hex">#4C2E91</span>
+                            </div>
+                            <div class="color-token-pill" style="--c:#00C2DE;">
+                                <span class="swatch"></span>
+                                <span class="name fw-bold">Electric Cyan</span>
+                                <span class="hex">#00C2DE</span>
+                            </div>
+                            <div class="color-token-pill" style="--c:#FF5B00;">
+                                <span class="swatch"></span>
+                                <span class="name fw-bold">Sunset Orange</span>
+                                <span class="hex">#FF5B00</span>
+                            </div>
+                            <div class="color-token-pill" style="--c:#060812;">
+                                <span class="swatch"></span>
+                                <span class="name fw-bold">Dark Obsidian</span>
+                                <span class="hex">#060812</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════════════════
+                 SECTION 3: FINAL SCREEN (EXACT MATCH TO UPLOADED SCREENSHOT)
+                 ══════════════════════════════════════════════════════════════════ -->
+            <div class="landing-section-3 screenshot-section">
+                <!-- Hero Grid (Exact Screenshot Layout) -->
+                <div class="landing-hero-grid reveal-element">
+                    <div>
+                        <div class="classy-badge"><span class="pulse-dot"></span> SUTech AI Study Assistant</div>
+                        <h1 class="landing-title"><span class="fw-light">Hi, I'm</span> <span class="fw-heavy">Techo</span></h1>
+                        <h2 class="landing-subtitle"><span class="fw-light">Your</span> <span class="fw-medium">smart campus</span> <span class="fw-bold">companion.</span></h2>
+                        <p class="landing-desc fw-regular">
+                            I'm here to help you summarize lectures, simulate GPAs, answer admissions queries, and assist your academic journey at <strong class="fw-semibold" style="color:var(--text-main);">SUTech University</strong>.
+                        </p>
+                        <a class="btn-chat-pill fw-bold" onclick="switchTab('chat')">
+                            Chat with Techo <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.85rem;"></i>
+                        </a>
+                    </div>
+
+                    <!-- Circular Background Aura & Techo Mascot with Floating Icons (Screenshot) -->
+                    <div class="landing-mascot-circle-stage">
+                        <div class="floating-icon-card floating-icon-1"><i class="fa-solid fa-circle-question"></i></div>
+                        <div class="floating-icon-card floating-icon-2"><i class="fa-solid fa-comment-dots"></i></div>
+                        <div class="floating-icon-card floating-icon-3"><i class="fa-solid fa-file-lines"></i></div>
+                        <img src="public/images/TECHO CHATBOT rgb -11.svg" class="landing-mascot-img" alt="Techo SUTech Mascot" />
+                    </div>
+                </div>
+
+                <!-- Explore SUTech Side-by-Side Square Boxes (Exact Screenshot Layout) -->
+                <div style="margin-top:2.5rem; margin-bottom:4rem;" class="reveal-element">
+                    <h3 style="font-size:1.4rem; margin-bottom:1rem; color:var(--text-main);"><span class="fw-light">Explore</span> <span class="fw-heavy">SUTech</span></h3>
+                    <div class="explore-bento-grid">
+                        <div class="explore-card" onclick="switchTab('chat')">
+                            <div>
+                                <div class="explore-card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                                <h4 class="explore-card-title fw-bold">Undergraduate Programs</h4>
+                                <p class="explore-card-desc fw-regular">Discover our wide range of accredited programs.</p>
+                            </div>
+                            <div class="explore-card-arrow">↗</div>
+                        </div>
+
+                        <div class="explore-card" onclick="switchTab('chat')">
+                            <div>
+                                <div class="explore-card-icon"><i class="fa-solid fa-book-open"></i></div>
+                                <h4 class="explore-card-title fw-bold">Admissions Guide</h4>
+                                <p class="explore-card-desc fw-regular">Everything you need to know to apply.</p>
+                            </div>
+                            <div class="explore-card-arrow">↗</div>
+                        </div>
+
+                        <div class="explore-card" onclick="switchTab('chat')">
+                            <div>
+                                <div class="explore-card-icon"><i class="fa-solid fa-users"></i></div>
+                                <h4 class="explore-card-title fw-bold">Campus Life</h4>
+                                <p class="explore-card-desc fw-regular">Clubs, events and a vibrant student community.</p>
+                            </div>
+                            <div class="explore-card-arrow">↗</div>
+                        </div>
+
+                        <div class="explore-card" onclick="switchTab('chat')">
+                            <div>
+                                <div class="explore-card-icon"><i class="fa-solid fa-headset"></i></div>
+                                <h4 class="explore-card-title fw-bold">Support Services</h4>
+                                <p class="explore-card-desc fw-regular">We're here to support your journey.</p>
+                            </div>
+                            <div class="explore-card-arrow">↗</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────────────────────────
+             TAB 2: CHAT (IMAGE 1 DESKTOP & IMAGE 2 PHONE)
+             ────────────────────────────────────────────────────────────────────── -->
+        <section id="tab-chat" class="tab-panel">
+            <div class="chat-centered-wrapper">
+                <div style="width:100%;">
+                    <!-- ChatGPT Initial Hero Greeting Container -->
+                    <div id="chat-initial-hero" class="chat-initial-hero">
+                        <!-- Title & Subtitle (Image 1 & 2) -->
+                        <div class="chat-header-group">
+                            <h1 class="chat-main-title fw-heavy">Techo</h1>
+                            <h2 class="chat-main-subtitle"><span class="fw-light">Your AI</span> <span class="fw-bold">Study Companion</span></h2>
+                        </div>
+
+                        <!-- Centered Techo Mascot Avatar from public/images (Image 1 & 2) -->
+                        <div style="margin-bottom:1.5rem;">
+                            <img src="public/images/TECHO CHATBOT rgb -12.svg" class="chat-mascot-img" alt="Techo AI Study Companion" />
+                        </div>
+
+                        <!-- Greeting Glass Card (Image 1 & 2) -->
+                        <div class="greeting-glass-card">
+                            <p style="margin-bottom:0.3rem;"><span class="fw-bold">Hi there!</span> 👋</p>
+                            <p class="fw-regular">I'm <strong class="fw-bold">Techo</strong>, your AI assistant at <strong class="fw-bold">SUTech</strong>.</p>
+                            <p class="fw-medium">How can I help you today?</p>
+                        </div>
+
+                        <!-- 2x2 Quick Topic Grid Buttons (Image 1 & 2) -->
+                        <div class="quick-topics-grid">
+                            <button class="topic-btn topic-btn-purple fw-bold" data-topic="Admissions">
+                                <i class="fa-solid fa-graduation-cap" style="color:var(--sutech-purple-light);"></i> Admissions
+                            </button>
+
+                            <button class="topic-btn topic-btn-cyan fw-bold" data-topic="Programs">
+                                <i class="fa-solid fa-book-open" style="color:var(--sutech-cyan);"></i> Programs
+                            </button>
+
+                            <button class="topic-btn topic-btn-cyan fw-bold" data-topic="Scholarships">
+                                <i class="fa-solid fa-award" style="color:var(--sutech-cyan);"></i> Scholarships
+                            </button>
+
+                            <button class="topic-btn topic-btn-purple fw-bold" data-topic="Campus Life">
+                                <i class="fa-solid fa-users" style="color:var(--sutech-purple-light);"></i> Campus Life
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Chat Messages Feed (ChatGPT Style Thread) -->
+                    <div id="chat-messages-container" class="chat-messages-container"></div>
+                </div>
+
+                <!-- Floating Bottom Input Bar (Image 1 & 2) -->
+                <div class="chat-floating-input-bar">
+                    <input id="chat-input" type="text" class="chat-input-field fw-medium" placeholder="Ask me anything..." />
+                    <button id="send-btn" class="btn-send-round" title="Send Message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────────────────────────────────────────────────────────────────
+             TAB 3: IDENTITY (TECHO DIGITAL IDENTITY SYSTEM)
+             ────────────────────────────────────────────────────────────────────── -->
+        <section id="tab-identity" class="tab-panel">
+            <div class="glass" style="padding:2.5rem; border-radius:24px; border:2px solid var(--sutech-purple);">
+                <h1 style="font-size:3.5rem; color:var(--text-main); margin-bottom:0.5rem;" class="fw-heavy">TECHO</h1>
+                <h2 style="font-size:1.5rem; color:var(--sutech-cyan); margin-bottom:1rem;" class="fw-bold"><span class="fw-light">SUTech</span> Digital Identity System</h2>
+                <p style="color:var(--text-muted); max-width:650px; line-height:1.7; margin-bottom:2rem;" class="fw-regular">
+                    Techo is the official AI Digital Assistant and digital identity of SUTech University. Techo represents innovation, accessibility, and the university's technology-driven vision.
+                </p>
+
+                <!-- Mascot Official Character Views Grid -->
+                <h3 style="font-size:1.2rem; color:var(--sutech-cyan); margin-bottom:1rem;" class="fw-bold">Official Techo Character Models</h3>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; text-align:center; margin-bottom:2.5rem;">
+                    <div style="padding:1.5rem; border-radius:18px; background:rgba(255,255,255,0.03); border:1px solid var(--border-color);">
+                        <img src="public/images/TECHO CHATBOT rgb -11.svg" class="identity-mascot-img" alt="Techo Front View" />
+                        <span style="display:block; font-size:0.9rem; margin-top:0.75rem;" class="fw-bold">Model Variant #1</span>
+                    </div>
+
+                    <div style="padding:1.5rem; border-radius:18px; background:rgba(255,255,255,0.03); border:1px solid var(--border-color);">
+                        <img src="public/images/TECHO CHATBOT rgb -12.svg" class="identity-mascot-img" alt="Techo 3/4 View" />
+                        <span style="display:block; font-size:0.9rem; margin-top:0.75rem;" class="fw-bold">Model Variant #2</span>
+                    </div>
+
+                    <div style="padding:1.5rem; border-radius:18px; background:rgba(255,255,255,0.03); border:1px solid var(--border-color);">
+                        <img src="public/images/TECHO CHATBOT rgb -13.png" class="identity-mascot-img" alt="Techo Side View" />
+                        <span style="display:block; font-size:0.9rem; margin-top:0.75rem;" class="fw-bold">Model Variant #3</span>
+                    </div>
+                </div>
+
+                <!-- Color Tokens breakdown -->
+                <h3 style="font-size:1.2rem; color:var(--sutech-cyan); margin-bottom:1rem;" class="fw-bold">Color Palette Tokens</h3>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <div style="padding:1rem; border-radius:14px; background:rgba(76,46,145,0.2); border:1px solid var(--sutech-purple);">
+                        <span style="color:var(--sutech-purple-light); display:block;" class="fw-bold">Primary Purple</span>
+                        <code>#4C2E91</code>
+                    </div>
+
+                    <div style="padding:1rem; border-radius:14px; background:rgba(0,194,222,0.15); border:1px solid var(--sutech-cyan);">
+                        <span style="color:var(--sutech-cyan); display:block;" class="fw-bold">Electric Cyan</span>
+                        <code>#00C2DE</code>
+                    </div>
+
+                    <div style="padding:1rem; border-radius:14px; background:rgba(255,91,0,0.15); border:1px solid var(--sutech-orange);">
+                        <span style="color:var(--sutech-orange); display:block;" class="fw-bold">Accent Orange</span>
+                        <code>#FF5B00</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Core App JS -->
+    <script src="js/app.js"></script>
+</body>
+</html>
