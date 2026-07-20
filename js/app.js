@@ -412,7 +412,7 @@ function initScrollReveal() {
     });
   }, {
     threshold: 0.1,
-    root: document.getElementById('tab-home')
+    root: null
   });
 
   elements.forEach(el => observer.observe(el));

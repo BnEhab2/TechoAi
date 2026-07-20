@@ -472,6 +472,7 @@ body {
 .chat-mascot-img {
   width: 190px;
   height: auto;
+  aspect-ratio: 1 / 1;
   max-width: 100%;
   filter: drop-shadow(0 15px 30px rgba(90, 53, 172, 0.5));
   animation: floatMascot 4s infinite alternate ease-in-out;
@@ -898,6 +899,7 @@ body {
   width: 380px;
   max-width: 90vw;
   height: auto;
+  aspect-ratio: 1 / 1;
   filter: drop-shadow(0 6px 16px rgba(0, 229, 255, 0.2));
 }
 
