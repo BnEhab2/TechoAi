@@ -169,7 +169,7 @@ function initChatStudio() {
 
 
     try {
-      const API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
+      const API_BASE = '';
       const sessionId = window.__techoSessionId || (window.__techoSessionId = 'sess_' + Date.now());
       
       console.log(`[Techo] Sending to ${API_BASE}/api/chat:`, userText);
