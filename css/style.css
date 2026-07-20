@@ -1489,16 +1489,13 @@ body {
     border-radius: 12px;
   }
 
-  #tab-chat {
-    height: 100%;
-    overflow: hidden !important;
-  }
-
-
   .chat-centered-wrapper {
     height: 100%;
+    padding-top: 1.5rem;
     padding-bottom: 0.5rem;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 0;
   }
 
@@ -1586,7 +1583,7 @@ body {
     padding: 0.4rem 0.5rem 0.4rem 1.1rem;
     border-radius: 32px;
     margin-top: 0;
-    margin-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+    margin-bottom: calc(1.8rem + env(safe-area-inset-bottom, 0px));
   }
 
   [dir="rtl"] .chat-floating-input-bar {
